@@ -1,0 +1,30 @@
+{
+  "name": "ai_devs3",
+  "version": "1.0.0",
+  "description": "Solution of tasks from AI_devs 3 course",
+  "main": "index.js",
+  "scripts": {
+    "build": "tsc",
+    "s01e01": "node dist/S01E01/app.js"
+  },
+  "type": "module",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/posiadly/AI_devs3.git"
+  },
+  "author": "Piotr Osiadły",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/posiadly/AI_devs3/issues"
+  },
+  "homepage": "https://github.com/posiadly/AI_devs3#readme",
+  "devDependencies": {
+    "@types/node": "^24.2.1",
+    "prettier": "^3.6.2",
+    "typescript": "^5.9.2"
+  },
+  "dependencies": {
+    "dotenv": "^17.2.1",
+    "openai": "^5.12.2"
+  }
+}
