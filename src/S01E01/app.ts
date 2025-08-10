@@ -67,7 +67,7 @@ async function main() {
       answer,
     );
     console.log(
-      `▶ Logged In Page Content:\n${await prettier.format(loggedInPageContent, { parser: "html" })}\n◀ End of HTML Content`,
+      `▶ Logged In Page Content:\n${await prettier.format(loggedInPageContent, { parser: "html" })}\n◀ End of Logged In Page Content`,
     );
     const flag = loggedInPageContent.match(/{{FLG:([^}]+)}}/);
     if (flag) {
