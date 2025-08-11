@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "build": "tsc",
-    "s01e01": "node dist/S01E01/app.js"
+    "s01e01": "node dist/S01E01/app.js",
+    "secret03": "node dist/secret03/app.js"
   },
   "type": "module",
   "repository": {
@@ -19,6 +20,7 @@
   },
   "homepage": "https://github.com/posiadly/AI_devs3#readme",
   "devDependencies": {
+    "@types/express": "^5.0.3",
     "@types/node": "^24.2.1",
     "prettier": "^3.6.2",
     "typescript": "^5.9.2"
@@ -27,6 +29,7 @@
     "axios": "^1.11.0",
     "cheerio": "^1.1.0",
     "dotenv": "^17.2.1",
+    "express": "^5.1.0",
     "openai": "^5.12.2"
   }
 }
