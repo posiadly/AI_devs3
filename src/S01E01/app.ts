@@ -4,6 +4,7 @@ import prettier from "prettier";
 import * as cheerio from "cheerio";
 import { OpenAIService } from "../tools/OpenAIService.js";
 import { answerQuery } from "./prompts.js";
+import { extractFlag } from "../tools/FlagExtractor.js";
 
 /*
 import OpenAI from "openai";
@@ -69,9 +70,9 @@ async function main() {
     console.log(
       `▶ Logged In Page Content:\n${await prettier.format(loggedInPageContent, { parser: "html" })}\n◀ End of Logged In Page Content`,
     );
-    const flag = loggedInPageContent.match(/{{FLG:([^}]+)}}/);
+    const flag = extractFlag(loggedInPageContent);
     if (flag) {
-      console.log("✅ Flag found:", flag[1]);
+      console.log("✅ Flag found:", flag);
     } else {
       console.log("🛑 Flag not found");
     }
