@@ -6,7 +6,8 @@
   "scripts": {
     "build": "tsc",
     "s01e01": "node dist/S01E01/app.js",
-    "s01e02": "node dist/S01E02/app.js"
+    "s01e02": "node dist/S01E02/app.js",
+    "s01e03": "node dist/S01E03/app.js"
   },
   "type": "module",
   "repository": {
@@ -26,6 +27,7 @@
     "typescript": "^5.9.2"
   },
   "dependencies": {
+    "@microsoft/tiktokenizer": "^1.0.10",
     "axios": "^1.11.0",
     "cheerio": "^1.1.0",
     "dotenv": "^17.2.1",

@@ -7,9 +7,13 @@ export class OpenAIService {
     this.client = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
   }
 
-  async query(systemMessage: string, userQuestion: string) {
+  async query(
+    systemMessage: string,
+    userQuestion: string,
+    model = "gpt-4.1",
+  ): Promise<string> {
     const openAIResponse = await this.client.chat.completions.create({
-      model: "gpt-4.1",
+      model,
       messages: [
         { role: "system", content: systemMessage },
         { role: "user", content: userQuestion },
