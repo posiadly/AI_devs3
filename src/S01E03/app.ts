@@ -1,3 +1,4 @@
+import { langfuseSpanProcessor } from "./instrumentation.js";
 import axios from "axios";
 import dotenv from "dotenv";
 import fs from "fs";
@@ -6,6 +7,7 @@ import { extractFlag } from "../tools/FlagExtractor.js";
 import { Tokenizer } from "../tools/Tokenizer.js";
 import { answerQuestionsPrompt } from "./prompts.js";
 import type { Answer, Message, TestData } from "../S01E03/types.js";
+import { LangfuseSpan, startObservation } from "@langfuse/tracing";
 
 dotenv.config();
 
@@ -46,18 +48,37 @@ function correctCalculation(data: TestData[]) {
   });
 }
 
-async function answerQuestions(data: TestData[]) {
+async function answerQuestions(data: TestData[], span: LangfuseSpan) {
   const openAIService = new OpenAIService();
   const questions = data
     .filter((item) => item.test)
     .map((item) => ({ question: item.test!.q, answer: "" }));
 
   console.log("❔ Retrieved questions:", questions);
+
+  const generationSpan = span.startObservation(
+    "model-generation",
+    {
+      model: model,
+      input: [
+        { role: "system", content: answerQuestionsPrompt },
+        { role: "user", content: JSON.stringify(questions) },
+      ],
+    },
+    { asType: "generation" },
+  );
+
   const response = await openAIService.query(
     answerQuestionsPrompt,
     JSON.stringify(questions),
+    model,
   );
+  generationSpan.update({
+    output: { response },
+  });
   console.log("🙋 Answer from model:", response);
+
+  generationSpan.end();
 
   const answers: { [key: string]: string } = {};
   JSON.parse(response).forEach((item: any) => {
@@ -92,6 +113,8 @@ async function main() {
       throw new Error("API_KEY environment variable is not defined");
     }
 
+    const span = startObservation("user-request2");
+
     const calibrationFile = await axios.get(process.env.CALIBRATION_FILE_URL);
 
     //save calibration file to disk
@@ -114,7 +137,7 @@ async function main() {
 
     let data = calibrationFile.data;
     correctCalculation(data["test-data"]);
-    await answerQuestions(data["test-data"]);
+    await answerQuestions(data["test-data"], span);
 
     const msg = await sendAnswer(data);
     console.log("ℹ️ Response for answer:", msg);
@@ -124,6 +147,10 @@ async function main() {
     } else {
       console.log("🛑 Flag not found");
     }
+
+    span.end();
+
+    await langfuseSpanProcessor.forceFlush();
   } catch (error) {
     if (error instanceof Error) {
       console.log("🛑 Error occurred:", error.message);

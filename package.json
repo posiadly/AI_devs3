@@ -27,7 +27,10 @@
     "typescript": "^5.9.2"
   },
   "dependencies": {
+    "@langfuse/otel": "^4.2.0",
+    "@langfuse/tracing": "^4.2.0",
     "@microsoft/tiktokenizer": "^1.0.10",
+    "@opentelemetry/sdk-node": "^0.206.0",
     "axios": "^1.11.0",
     "cheerio": "^1.1.0",
     "dotenv": "^17.2.1",
