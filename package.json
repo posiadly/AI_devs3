@@ -8,7 +8,8 @@
     "s01e01": "node dist/S01E01/app.js",
     "s01e02": "node dist/S01E02/app.js",
     "s01e03": "node dist/S01E03/app.js",
-    "s01e04": "node dist/S01E04/app.js"
+    "s01e04": "node dist/S01E04/app.js",
+    "s01e05": "node dist/S01E05/app.js"
   },
   "type": "module",
   "repository": {

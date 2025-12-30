@@ -6,7 +6,8 @@ import { OpenAIService } from "../tools/OpenAIService.js";
 import { extractFlag } from "../tools/FlagExtractor.js";
 import { Tokenizer } from "../tools/Tokenizer.js";
 import { answerQuestionsPrompt } from "./prompts.js";
-import type { Answer, Message, TestData } from "../S01E03/types.js";
+import type { TestData } from "../S01E03/types.js";
+import { sendAnswer } from "../tools/SendAnswer.js";
 import { LangfuseSpan, startObservation } from "@langfuse/tracing";
 
 dotenv.config();
@@ -16,24 +17,6 @@ const gpt4_1params = {
   maxOutputTokens: 16384,
 };
 const model = "gpt-4o";
-
-async function sendAnswer(data: any): Promise<Answer> {
-  const dataToSend = { ...data };
-  dataToSend.apikey = process.env.API_KEY!;
-  const msg: Message = {
-    task: "JSON",
-    apikey: process.env.API_KEY!,
-    answer: dataToSend,
-  };
-
-  return (
-    await axios.post(process.env.S01E03_VERIFICATION_URL!, msg, {
-      headers: {
-        "Content-Type": "application/json",
-      },
-    })
-  ).data as Answer;
-}
 
 function correctCalculation(data: TestData[]) {
   data.forEach((item: TestData) => {
@@ -139,7 +122,13 @@ async function main() {
     correctCalculation(data["test-data"]);
     await answerQuestions(data["test-data"], span);
 
-    const msg = await sendAnswer(data);
+    data.apikey = process.env.API_KEY!;
+
+    const msg = await sendAnswer(
+      "JSON",
+      data,
+      process.env.S01E03_VERIFICATION_URL!,
+    );
     console.log("ℹ️ Response for answer:", msg);
     const flag = extractFlag(msg.message);
     if (flag) {
