@@ -9,7 +9,8 @@
     "s01e02": "node dist/S01E02/app.js",
     "s01e03": "node dist/S01E03/app.js",
     "s01e04": "node dist/S01E04/app.js",
-    "s01e05": "node dist/S01E05/app.js"
+    "s01e05": "node dist/S01E05/app.js",
+    "s02e01": "node dist/S02E01/app.js"
   },
   "type": "module",
   "repository": {
@@ -23,16 +24,19 @@
   },
   "homepage": "https://github.com/posiadly/AI_devs3#readme",
   "devDependencies": {
+    "@types/adm-zip": "^0.5.7",
     "@types/express": "^5.0.3",
     "@types/node": "^24.2.1",
     "prettier": "^3.6.2",
     "typescript": "^5.9.2"
   },
   "dependencies": {
+    "@deepgram/sdk": "^4.11.3",
     "@langfuse/otel": "^4.2.0",
     "@langfuse/tracing": "^4.2.0",
     "@microsoft/tiktokenizer": "^1.0.10",
     "@opentelemetry/sdk-node": "^0.206.0",
+    "adm-zip": "^0.5.16",
     "axios": "^1.11.0",
     "cheerio": "^1.1.0",
     "dotenv": "^17.2.1",
