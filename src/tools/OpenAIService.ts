@@ -1,4 +1,5 @@
 import OpenAI from "openai";
+import type { ChatCompletionContentPart } from "openai/resources/chat/completions.mjs";
 
 export class OpenAIService {
   private client: OpenAI;
@@ -9,7 +10,7 @@ export class OpenAIService {
 
   async query(
     systemMessage: string,
-    userQuestion: string,
+    userQuestion: string | ChatCompletionContentPart[],
     model = "gpt-4.1",
   ): Promise<string> {
     const openAIResponse = await this.client.chat.completions.create({
